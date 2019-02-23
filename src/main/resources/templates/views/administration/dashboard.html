@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html layout:decorate="~{dashboardLayout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+    <div layout:fragment="content">
+        <div class="container-fluid mt-3">
+            <div class="row">
+                <div class="col-2">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" id="v-pills-team-management-tab" data-toggle="pill" href="#v-pills-team-management" role="tab" aria-controls="v-pills-team-management" aria-selected="true">Team management</a>
+                        <a class="nav-link" id="v-pills-all-participants-tab" data-toggle="pill" href="#v-pills-all-participants" role="tab" aria-controls="v-pills-all-participants" aria-selected="false">All participants</a>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-team-management" role="tabpanel" aria-labelledby="v-pills-team-management-tab">
+                            1
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-all-participants" role="tabpanel" aria-labelledby="v-pills-all-participants-tab">
+                            2
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

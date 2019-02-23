@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+    <nav th:fragment="navigation(appName)" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Fly Fishing Team</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="basicExampleNav">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/teams' ? 'active':''}">
+                    <a class="nav-link" th:href="@{teams}">Teams</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Championship information
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Section I</a>
+                        <a class="dropdown-item" href="#">Section II</a>
+                        <a class="dropdown-item" href="#">Section III</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Summary</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{rules}">Rules</a>
+                </li>
+                <li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/administration' ? 'active':''}">
+                    <a class="nav-link" th:href="@{administration}">Administration panel</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+</html>

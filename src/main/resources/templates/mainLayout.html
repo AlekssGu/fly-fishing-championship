@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/head :: head(${appName})"></head>
 <body>
-    <h1>Welcome!</h1>
+    <nav th:replace="fragments/navigation :: navigation(${appName})"></nav>
+    <div class="container">
+        <div layout:fragment="content"></div>
+        <footer th:replace="fragments/footer :: footer(${appName})"></footer>
+    </div>
 </body>
-<footer th:replace="fragments/footer :: footer(${appName})"></footer>
 </html>
