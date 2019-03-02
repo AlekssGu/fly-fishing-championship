@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lv.flyfishingteam.app.security.SecurityService;
 
@@ -25,37 +26,40 @@ public class UserController {
 	public String registration(Model model) {
 		model.addAttribute("userForm", new User());
 
-		return "registration";
+		return "views/auth/registration";
 	}
 
 	@PostMapping("/registration")
-	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		userValidator.validate(userForm, bindingResult);
 
 		if (bindingResult.hasErrors()) {
-			return "registration";
+			return "views/auth/registration";
 		}
 
-		userService.save(userForm);
+		User newUser = userService.save(userForm);
+		securityService.autoLogin(newUser.getUsername(), newUser.getPasswordConfirm());
 
-		securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
-
-		return "redirect:/welcome";
+		redirectAttributes.addFlashAttribute("message", "You have successfully registered and logged in!");
+		return "redirect:/administration";
 	}
 
 	@GetMapping("/login")
-	public String login(Model model, String error, String logout) {
-		if (error != null)
-			model.addAttribute("error", "Your username and password is invalid.");
-
-		if (logout != null)
-			model.addAttribute("message", "You have been logged out successfully.");
+	public String login(Model model, String error, String logout, RedirectAttributes redirectAttributes) {
+		if (error != null) {
+			redirectAttributes.addFlashAttribute("error", "Your username and password is invalid.");
+			return "redirect:/login";
+		}
+		if (logout != null) {
+			redirectAttributes.addFlashAttribute("message", "You have been logged out successfully.");
+			return "redirect:/login";
+		}
 
 		return "views/auth/login";
 	}
 
-	@GetMapping("/welcome")
-	public String welcome(Model model) {
-		return "welcome";
+	@GetMapping("/access-denied")
+	public String accessDenied() {
+		return "/error/access-denied";
 	}
 }

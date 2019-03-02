@@ -1,25 +1,32 @@
 package lv.flyfishingteam.app.security;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SecurityServiceImpl implements SecurityService{
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
-
-	@Autowired
-	private UserDetailsService userDetailsService;
+	private final AuthenticationManager authenticationManager;
+	private final UserDetailsService userDetailsService;
 
 	private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
+
+	SecurityServiceImpl(AuthenticationManager authenticationManager, @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
+		this.authenticationManager = authenticationManager;
+		this.userDetailsService = userDetailsService;
+	}
 
 	@Override
 	public String findLoggedInUsername() {
