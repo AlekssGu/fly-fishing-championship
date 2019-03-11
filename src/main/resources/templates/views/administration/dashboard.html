@@ -57,7 +57,7 @@
                                     <th scope="row" th:text="${iterator.index + 1}"></th>
                                     <td th:text="${participant.firstName}"></td>
                                     <td th:text="${participant.lastName}"></td>
-                                    <td><span th:if="${participant.team != null}" th:text="${participant.team.teamName}" th:remove="tag"></span></td>
+                                    <td th:text="${participant.team != null} ? ${participant.team.teamName} : 'Individual'"></td>
                                     <td>
                                         <a th:href="@{'administration/participant/edit/' + ${participant.id}}" class="btn btn-sm btn-light">Edit</a>
                                         <a th:href="@{'administration/participant/delete/' + ${participant.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
