@@ -4,7 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import lv.flyfishingteam.app.team.Team;
 
 @Entity
 @Table(name = "participant")
@@ -17,9 +21,9 @@ public class Participant {
 
 	private String lastName;
 
-	private String representingCountry;
-
-	private String isIndividual;
+	@ManyToOne
+	@JoinColumn
+	private Team team;
 
 	public Long getId() {
 		return id;
@@ -45,19 +49,11 @@ public class Participant {
 		this.lastName = lastName;
 	}
 
-	public String getRepresentingCountry() {
-		return representingCountry;
+	public Team getTeam() {
+		return team;
 	}
 
-	public void setRepresentingCountry(String representingCountry) {
-		this.representingCountry = representingCountry;
-	}
-
-	public String getIsIndividual() {
-		return isIndividual;
-	}
-
-	public void setIsIndividual(String isIndividual) {
-		this.isIndividual = isIndividual;
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 }

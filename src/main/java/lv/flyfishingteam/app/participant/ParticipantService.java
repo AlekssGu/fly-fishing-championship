@@ -1,6 +1,7 @@
 package lv.flyfishingteam.app.participant;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -10,4 +11,7 @@ public interface ParticipantService {
 
 	List<Participant> findAll();
 
+	Optional<Participant> findById(Long id);
+
+	void delete(Long participantId);
 }

@@ -6,27 +6,66 @@
     <div layout:fragment="content">
         <div class="container mt-3">
             <div class="row">
-                <div class="col-12">
-                    <h2>All participants <span class="badge badge-secondary" th:text="${participants.size()}"></span></h2>
-                    <a th:href="@{administration/participants/new}" class="btn btn-sm btn-success">Add new participant</a>
+                <div class="col-12 mt-3">
+                    <div th:replace="fragments/messages :: messages(${error}, ${message})"></div>
+                    <h2>Team management <span class="badge badge-light" th:text="${teams.size()}"></span></h2>
+                    <a th:href="@{administration/team/new}" class="btn btn-sm btn-info">Create a new team</a>
 
-                    <ul class="list-group list-group-flush mt-3" th:if="${participants.size() > 0}">
-                        <th:block th:each="participant, iterator : ${participants}">
-
-                            <li class="list-group-item">
-                                <span th:text="${iterator.index + 1}" th:remove="tag"></span>.
-                                <span th:text="${participant.firstName}" th:remove="tag"></span>
-                                <span th:text="${participant.lastName}" th:remove="tag"></span>
-                                (<span th:text="${participant.representingCountry}" th:remove="tag"></span>)
-                            </li>
+                    <table class="table mt-3" th:if="${teams.size() > 0}">
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Team name</th>
+                            <th scope="col">Members</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="team, iterator : ${teams}">
+                            <tr>
+                                <th scope="row" th:text="${iterator.index + 1}"></th>
+                                <td th:text="${team.teamName}"></td>
+                                <td th:text="${team.participants.size()}"></td>
+                                <td>
+                                    <a th:href="@{'administration/team/edit/' + ${team.id}}" class="btn btn-sm btn-light">Edit</a>
+                                    <a th:href="@{'administration/team/delete/' + ${team.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                </td>
+                            </tr>
                         </th:block>
-                    </ul>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 mt-3">
-                    <h2>Team management</h2>
-                    <a th:href="@{administration/team/new}" class="btn btn-sm btn-success">Create a new team</a>
+                <div class="col-12">
+                    <h2>All participants <span class="badge badge-light" th:text="${participants.size()}"></span></h2>
+                    <a th:href="@{administration/participant/new}" class="btn btn-sm btn-info">Add new participant</a>
+
+                    <table class="table mt-3" th:if="${participants.size() > 0}">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Surname</th>
+                                <th scope="col">Team</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:each="participant, iterator : ${participants}">
+                                <tr>
+                                    <th scope="row" th:text="${iterator.index + 1}"></th>
+                                    <td th:text="${participant.firstName}"></td>
+                                    <td th:text="${participant.lastName}"></td>
+                                    <td><span th:if="${participant.team != null}" th:text="${participant.team.teamName}" th:remove="tag"></span></td>
+                                    <td>
+                                        <a th:href="@{'administration/participant/edit/' + ${participant.id}}" class="btn btn-sm btn-light">Edit</a>
+                                        <a th:href="@{'administration/participant/delete/' + ${participant.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

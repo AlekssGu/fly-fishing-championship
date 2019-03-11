@@ -3,11 +3,11 @@
       xmlns:th="http://www.w3.org/1999/xhtml">
 <head></head>
 <body>
-<div layout:fragment="content">
+<div layout:fragment="content" class="container">
     <div class="row">
         <div class="col-sm-12 col-md-4 offset-md-4">
             <h2 class="form-signin-heading">Add new participant</h2>
-            <form method="POST" th:object="${participantForm}" th:action="@{/administration/participants}" class="form-signin">
+            <form method="POST" th:object="${participantForm}" th:action="@{/administration/participant}" class="form-signin">
                 <div class="form-group">
                     <input type="text" th:field="*{firstName}" class="form-control" placeholder="First name" autofocus="true" />
                     <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</span>
@@ -17,18 +17,17 @@
                     <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name error</span>
                 </div>
                 <div class="form-group">
-                    <input type="text" th:field="*{representingCountry}" class="form-control" placeholder="Representing country" />
-                    <span th:if="${#fields.hasErrors('representingCountry')}" th:errors="*{representingCountry}">Representing country error</span>
-                </div>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" id="isIndividual" type="checkbox" th:field="*{isIndividual}" th:value="*{isIndividual}" placeholder="Is individual" />
-                    <span th:if="${#fields.hasErrors('isIndividual')}" th:errors="*{isIndividual}">Is individual error</span>
-                    <label class="form-check-label" for="isIndividual">
-                        Is individual participant
-                    </label>
+                    <select th:field="*{team}" class="form-control" id="team">
+                        <option value="-1" selected disabled>Select team if applicable</option>
+                        <option value="-1">Individual</option>
+                        <th:block th:each="team : ${teams}">
+                            <option th:text="${team.teamName}" th:value="${team.id}" ></option>
+                        </th:block>
+                    </select>
+                    <span th:if="${#fields.hasErrors('team')}" th:errors="*{team}">Team error</span>
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                <button class="btn btn-lg btn-outline-info btn-block" type="submit">Submit</button>
             </form>
         </div>
     </div>

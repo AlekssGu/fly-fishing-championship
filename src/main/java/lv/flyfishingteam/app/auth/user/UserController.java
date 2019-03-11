@@ -45,21 +45,16 @@ public class UserController {
 	}
 
 	@GetMapping("/login")
-	public String login(Model model, String error, String logout, RedirectAttributes redirectAttributes) {
+	public String login(String error, String logout, RedirectAttributes redirectAttributes) {
 		if (error != null) {
-			redirectAttributes.addFlashAttribute("error", "Your username and password is invalid.");
+			redirectAttributes.addFlashAttribute("error", "Your username or password is invalid");
 			return "redirect:/login";
 		}
 		if (logout != null) {
-			redirectAttributes.addFlashAttribute("message", "You have been logged out successfully.");
+			redirectAttributes.addFlashAttribute("message", "You have been logged out successfully");
 			return "redirect:/login";
 		}
 
 		return "views/auth/login";
-	}
-
-	@GetMapping("/access-denied")
-	public String accessDenied() {
-		return "/error/access-denied";
 	}
 }
