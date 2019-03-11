@@ -17,6 +17,16 @@
                     <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name error</span>
                 </div>
                 <div class="form-group">
+                    <select th:field="*{user}" class="form-control">
+                        <option value="-1" disabled>Select user if registered</option>
+                        <option value="-1">None</option>
+                        <th:block th:each="user : ${users}">
+                            <option th:text="${user.username}" th:value="${user.id}" ></option>
+                        </th:block>
+                    </select>
+                    <span th:if="${#fields.hasErrors('user')}" th:errors="*{user}">User error</span>
+                </div>
+                <div class="form-group">
                     <select th:field="*{team}" class="form-control" id="team">
                         <option value="-1" selected disabled>Select team if applicable</option>
                         <option value="-1">Individual</option>

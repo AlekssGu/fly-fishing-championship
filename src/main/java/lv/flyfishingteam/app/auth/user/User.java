@@ -7,10 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lv.flyfishingteam.app.auth.role.Role;
+import lv.flyfishingteam.app.participant.Participant;
 
 @Entity
 @Table(name="application_user")
@@ -30,6 +32,9 @@ public class User {
 
 	@ManyToMany
 	private Set<Role> roles;
+
+	@OneToOne
+	private Participant participant;
 
 	public Long getId() {
 		return id;

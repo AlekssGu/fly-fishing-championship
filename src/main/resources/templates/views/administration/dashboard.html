@@ -21,17 +21,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <th:block th:each="team, iterator : ${teams}">
-                            <tr>
-                                <th scope="row" th:text="${iterator.index + 1}"></th>
-                                <td th:text="${team.teamName}"></td>
-                                <td th:text="${team.participants.size()}"></td>
-                                <td>
-                                    <a th:href="@{'administration/team/edit/' + ${team.id}}" class="btn btn-sm btn-light">Edit</a>
-                                    <a th:href="@{'administration/team/delete/' + ${team.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
-                                </td>
-                            </tr>
-                        </th:block>
+                            <th:block th:each="team, iterator : ${teams}">
+                                <tr>
+                                    <th scope="row" th:text="${iterator.index + 1}"></th>
+                                    <td th:text="${team.teamName}"></td>
+                                    <td th:text="${team.participants.size()}"></td>
+                                    <td>
+                                        <a th:href="@{'administration/team/edit/' + ${team.id}}" class="btn btn-sm btn-light">Edit</a>
+                                        <a th:href="@{'administration/team/delete/' + ${team.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            </th:block>
                         </tbody>
                     </table>
                 </div>

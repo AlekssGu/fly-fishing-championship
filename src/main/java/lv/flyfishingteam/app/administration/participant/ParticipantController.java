@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import lv.flyfishingteam.app.auth.user.UserService;
 import lv.flyfishingteam.app.participant.Participant;
 import lv.flyfishingteam.app.participant.ParticipantService;
 import lv.flyfishingteam.app.team.TeamService;
@@ -20,14 +21,17 @@ public class ParticipantController {
 
 	private final ParticipantService participantService;
 	private final TeamService teamService;
+	private final UserService userService;
 
-	ParticipantController(ParticipantService participantService, TeamService teamService) {
+	ParticipantController(ParticipantService participantService, TeamService teamService, UserService userService) {
 		this.participantService = participantService;
 		this.teamService = teamService;
+		this.userService = userService;
 	}
 
 	@GetMapping("/administration/participant/new")
 	public String addParticipant(Model model) {
+		model.addAttribute("users", userService.findAll());
 		model.addAttribute("teams", teamService.findAll());
 		model.addAttribute("participantForm", new Participant());
 		return "views/administration/participant/new";
@@ -54,6 +58,7 @@ public class ParticipantController {
 		Participant participant = participantService.findById(participantId).orElseThrow(
 				() -> new ParticipantNotFoundException("Participant not found with id " + participantId));
 
+		model.addAttribute("users", userService.findAll());
 		model.addAttribute("teams", teamService.findAll());
 		model.addAttribute("participantForm", participant);
 

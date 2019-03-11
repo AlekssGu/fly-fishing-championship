@@ -5,8 +5,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import lv.flyfishingteam.app.team.TeamService;
+
 @Controller
 public class HomeController {
+
+	private final TeamService teamService;
+
+	HomeController(TeamService teamService) {
+		this.teamService = teamService;
+	}
 
 	@Value("${spring.application.name}")
 	String appName;
@@ -20,6 +28,7 @@ public class HomeController {
 	@GetMapping("/teams")
 	public String teamsPage(Model model) {
 		model.addAttribute("appName", appName);
+		model.addAttribute("teams", teamService.findAll());
 		return "views/teams";
 	}
 

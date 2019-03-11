@@ -4,10 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lv.flyfishingteam.app.auth.user.User;
 import lv.flyfishingteam.app.team.Team;
 
 @Entity
@@ -22,8 +23,10 @@ public class Participant {
 	private String lastName;
 
 	@ManyToOne
-	@JoinColumn
 	private Team team;
+
+	@OneToOne
+	private User user;
 
 	public Long getId() {
 		return id;
@@ -55,5 +58,13 @@ public class Participant {
 
 	public void setTeam(Team team) {
 		this.team = team;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }
