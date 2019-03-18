@@ -43,27 +43,61 @@
 
                     <table class="table mt-3" th:if="${participants.size() > 0}">
                         <thead class="thead-light">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Surname</th>
-                                <th scope="col">Team</th>
-                                <th scope="col">Actions</th>
-                            </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Surname</th>
+                            <th scope="col">Team</th>
+                            <th scope="col">Actions</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <th:block th:each="participant, iterator : ${participants}">
-                                <tr>
-                                    <th scope="row" th:text="${iterator.index + 1}"></th>
-                                    <td th:text="${participant.firstName}"></td>
-                                    <td th:text="${participant.lastName}"></td>
-                                    <td th:text="${participant.team != null} ? ${participant.team.teamName} : 'Individual'"></td>
-                                    <td>
-                                        <a th:href="@{'administration/participant/edit/' + ${participant.id}}" class="btn btn-sm btn-light">Edit</a>
-                                        <a th:href="@{'administration/participant/delete/' + ${participant.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
-                                    </td>
-                                </tr>
-                            </th:block>
+                        <th:block th:each="participant, iterator : ${participants}">
+                            <tr>
+                                <th scope="row" th:text="${iterator.index + 1}"></th>
+                                <td th:text="${participant.firstName}"></td>
+                                <td th:text="${participant.lastName}"></td>
+                                <td th:text="${participant.team != null} ? ${participant.team.teamName} : 'Individual'"></td>
+                                <td>
+                                    <a th:href="@{'administration/participant/edit/' + ${participant.id}}" class="btn btn-sm btn-light">Edit</a>
+                                    <a th:href="@{'administration/participant/delete/' + ${participant.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <h2>Stages <span class="badge badge-light" th:text="${stages.size()}"></span></h2>
+                    <a th:href="@{administration/stage/new}" class="btn btn-sm btn-info">Add new stage</a>
+
+                    <table class="table mt-3" th:if="${stages.size() > 0}">
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Notes</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="stage, iterator : ${stages}">
+                            <tr>
+                                <th scope="row" th:text="${iterator.index + 1}"></th>
+                                <td th:text="${stage.name}"></td>
+                                <td th:text="${stage.eventDate}"></td>
+                                <td th:text="${stage.location}"></td>
+                                <td th:text="${stage.notes}"></td>
+                                <td>
+                                    <a th:href="@{'administration/stage/edit/' + ${stage.id}}" class="btn btn-sm btn-light">Edit</a>
+                                    <a th:href="@{'administration/stage/delete/' + ${stage.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                </td>
+                            </tr>
+                        </th:block>
                         </tbody>
                     </table>
                 </div>

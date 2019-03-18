@@ -1,5 +1,6 @@
 package lv.flyfishingteam.app.auth.user;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lv.flyfishingteam.app.auth.role.RoleRepository;
+import lv.flyfishingteam.app.auth.role.RoleType;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,8 +22,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User save(User user) {
+		user.setUsername(user.getUsername().toLowerCase());
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setRoles(new HashSet<>(roleRepository.findAll()));
+		user.setRoles(new HashSet<>(Arrays.asList(roleRepository.findByName(RoleType.ROLE_USER.toString()))));
 
 		User createdUser = userRepository.save(user);
 

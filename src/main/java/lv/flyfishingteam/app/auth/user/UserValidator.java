@@ -27,7 +27,7 @@ class UserValidator implements Validator {
 		if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
 			errors.rejectValue("username", "userValidator.username.length");
 		}
-		if (userService.findByUsername(user.getUsername()) != null) {
+		if (user.getUsername() != null && userService.findByUsername(user.getUsername().toLowerCase()) != null) {
 			errors.rejectValue("username", "userValidator.username.unique");
 		}
 

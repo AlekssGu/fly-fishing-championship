@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html layout:decorate="~{dashboardLayout.html}" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+<div layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-4 offset-md-4">
+            <h2 class="form-signin-heading">Edit stage</h2>
+            <form method="POST" th:object="${stageForm}" th:action="@{/administration/stage/update}" class="form-signin">
+                <input th:field="*{id}" type="hidden" />
+                <div class="form-group">
+                    <input type="text" th:field="*{name}" class="form-control" placeholder="Name" autofocus="true" />
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</span>
+                </div>
+                <div class="form-group">
+                    <input type="date" th:field="*{eventDate}" class="form-control" placeholder="Event date" />
+                    <span th:if="${#fields.hasErrors('eventDate')}" th:errors="*{eventDate}">Event date error</span>
+                </div>
+                <div class="form-group">
+                    <input type="text" th:field="*{location}" class="form-control" placeholder="Location" />
+                    <span th:if="${#fields.hasErrors('location')}" th:errors="*{location}">Location error</span>
+                </div>
+                <div class="form-group">
+                    <input type="text" th:field="*{notes}" class="form-control" placeholder="Notes" />
+                    <span th:if="${#fields.hasErrors('notes')}" th:errors="*{notes}">Notes error</span>
+                </div>
+                <button class="btn btn-lg btn-outline-info btn-block" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -5,6 +5,7 @@
 <body>
     <div layout:fragment="content" class="row">
         <div class="col-12">
+            <div th:replace="fragments/messages :: messages(${error}, ${message})"></div>
             <h1>2019.gada Latvijas mušiņmakšķerēšanas čempionāts</h1>
             <p class="lead">Mušiņmakšķerēšanas sports Latvijā</p>
         </div>

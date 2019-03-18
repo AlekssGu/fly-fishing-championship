@@ -41,7 +41,7 @@ public class UserController {
 		securityService.autoLogin(newUser.getUsername(), newUser.getPasswordConfirm());
 
 		redirectAttributes.addFlashAttribute("message", "You have successfully registered and logged in!");
-		return "redirect:/administration";
+		return "redirect:/home";
 	}
 
 	@GetMapping("/login")
