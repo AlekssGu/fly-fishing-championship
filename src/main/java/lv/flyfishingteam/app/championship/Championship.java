@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lv.flyfishingteam.app.stage.Stage;
 
 @Entity
@@ -20,6 +22,7 @@ public class Championship {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date year;
 
 	private String organizer;
