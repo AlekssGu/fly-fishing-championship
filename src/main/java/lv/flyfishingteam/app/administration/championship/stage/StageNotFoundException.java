@@ -1,4 +1,4 @@
-package lv.flyfishingteam.app.administration.stage;
+package lv.flyfishingteam.app.administration.championship.stage;
 
 public class StageNotFoundException extends RuntimeException {
 

@@ -1,4 +1,4 @@
-package lv.flyfishingteam.app.administration.stage;
+package lv.flyfishingteam.app.administration.championship.stage;
 
 import java.text.MessageFormat;
 
@@ -11,21 +11,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import lv.flyfishingteam.app.championship.ChampionshipService;
 import lv.flyfishingteam.app.stage.Stage;
 import lv.flyfishingteam.app.stage.StageService;
+import lv.flyfishingteam.app.stage.session.StageSession;
+import lv.flyfishingteam.app.stage.session.StageSessionService;
 
 @Controller
 public class StageController {
 
-	private final StageService stageService;
+	private static final int DEFAULT_STAGE_COUNT = 6;
 
-	StageController(StageService stageService) {
+	private final StageService stageService;
+	private final ChampionshipService championshipService;
+	private final StageSessionService stageSessionService;
+
+	StageController(StageService stageService, ChampionshipService championshipService, StageSessionService stageSessionService) {
 		this.stageService = stageService;
+		this.championshipService = championshipService;
+		this.stageSessionService = stageSessionService;
 	}
 
 	@GetMapping("/administration/stage/new")
 	public String addStage(Model model) {
 		model.addAttribute("stageForm", new Stage());
+		model.addAttribute("championships", championshipService.findAll());
+
 		return "views/administration/stage/new";
 	}
 
@@ -33,6 +44,8 @@ public class StageController {
 	public String newStage(@ModelAttribute("stageForm") Stage stageForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
 		Stage stage = stageService.save(stageForm);
+
+		createStageSessions(stage);
 
 		if (bindingResult.hasErrors()) {
 			return "views/administration/stage/new";
@@ -50,6 +63,7 @@ public class StageController {
 				() -> new StageNotFoundException("Stage not found with id " + stageId));
 
 		model.addAttribute("stageForm", stage);
+		model.addAttribute("championships", championshipService.findAll());
 
 		return "views/administration/stage/edit";
 	}
@@ -77,6 +91,15 @@ public class StageController {
 		redirectAttributes.addFlashAttribute("message", "Stage deleted!");
 
 		return "redirect:/administration";
+	}
+
+	private void createStageSessions(Stage stage) {
+		for (int i = 0; i < DEFAULT_STAGE_COUNT; i++) {
+			StageSession stageSession = new StageSession();
+			stageSession.setSequence(i + 1);
+			stageSession.setStage(stage);
+			stageSessionService.save(stageSession);
+		}
 	}
 
 }

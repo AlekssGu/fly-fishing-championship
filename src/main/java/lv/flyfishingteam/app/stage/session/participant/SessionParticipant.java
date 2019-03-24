@@ -28,4 +28,35 @@ public class SessionParticipant {
 
 	private String zone;
 
+	public StageSession getStageSession() {
+		return stageSession;
+	}
+
+	public void setStageSession(StageSession stageSession) {
+		this.stageSession = stageSession;
+	}
+
+	public Participant getParticipant() {
+		return participant;
+	}
+
+	public void setParticipant(Participant participant) {
+		this.participant = participant;
+	}
+
+	public String getSector() {
+		return sector;
+	}
+
+	public void setSector(String sector) {
+		this.sector = sector;
+	}
+
+	public String getZone() {
+		return zone;
+	}
+
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
 }

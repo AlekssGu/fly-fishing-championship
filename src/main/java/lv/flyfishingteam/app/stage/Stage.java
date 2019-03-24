@@ -22,8 +22,6 @@ public class Stage {
 
 	private String name;
 
-	private String representingCountry;
-
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date eventDate;
 
@@ -48,14 +46,6 @@ public class Stage {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getRepresentingCountry() {
-		return representingCountry;
-	}
-
-	public void setRepresentingCountry(String representingCountry) {
-		this.representingCountry = representingCountry;
 	}
 
 	public Date getEventDate() {

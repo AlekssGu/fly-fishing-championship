@@ -1,6 +1,8 @@
 package lv.flyfishingteam.app.auth.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,7 +56,14 @@ public class UserController {
 			redirectAttributes.addFlashAttribute("message", "You have been logged out successfully");
 			return "redirect:/login";
 		}
+		if (isAlreadyLoggedIn()) {
+			return "redirect:/home";
+		}
 
 		return "views/auth/login";
+	}
+
+	private boolean isAlreadyLoggedIn() {
+		return !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 	}
 }

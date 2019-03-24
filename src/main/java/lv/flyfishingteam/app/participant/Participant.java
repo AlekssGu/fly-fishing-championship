@@ -52,6 +52,10 @@ public class Participant {
 		this.lastName = lastName;
 	}
 
+	public String getFullName() {
+		return this.firstName + ' ' + this.lastName;
+	}
+
 	public Team getTeam() {
 		return team;
 	}

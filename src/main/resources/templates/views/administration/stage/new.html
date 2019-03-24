@@ -9,6 +9,15 @@
             <h2 class="form-signin-heading">Add new stage</h2>
             <form method="POST" th:object="${stageForm}" th:action="@{/administration/stage}" class="form-signin">
                 <div class="form-group">
+                    <select th:field="*{championship}" class="form-control" id="championship">
+                        <option value="-1" selected disabled>Select championship</option>
+                        <th:block th:each="championship : ${championships}">
+                            <option th:text="${#dates.format(championship.year, 'yyyy') + ' (' + championship.organizer + ')'}" th:value="${championship.id}" ></option>
+                        </th:block>
+                    </select>
+                    <span th:if="${#fields.hasErrors('championship')}" th:errors="*{championship}">Championship error</span>
+                </div>
+                <div class="form-group">
                     <input type="text" th:field="*{name}" class="form-control" placeholder="Name" autofocus="true" />
                     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</span>
                 </div>
