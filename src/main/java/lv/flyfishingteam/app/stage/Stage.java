@@ -1,17 +1,21 @@
 package lv.flyfishingteam.app.stage;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lv.flyfishingteam.app.championship.Championship;
+import lv.flyfishingteam.app.stage.session.StageSession;
 
 @Entity
 @Table(name = "championship_stage")
@@ -31,6 +35,9 @@ public class Stage {
 
 	@ManyToOne
 	private Championship championship;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "stage")
+	private List<StageSession> stageSessions;
 
 	public Long getId() {
 		return id;

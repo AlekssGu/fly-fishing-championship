@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html layout:decorate="~{dashboardLayout.html}" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+<div layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-12">
+            <div th:replace="fragments/messages :: messages(${error}, ${message})"></div>
+            <h2>Stages for Championship of Year <span th:text="${#dates.format(championship.year, 'yyyy')}" th:remove="tag"></span></h2>
+            <a th:href="@{/administration}" class="btn btn-sm btn-secondary">Go back</a>
+            <a th:href="@{'/administration/championship/' + ${championship.id} + '/stage/new'}" class="btn btn-sm btn-info">Add new stage</a>
+
+            <table class="table mt-3" th:if="${stages.size() > 0}">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Notes</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="stage, iterator : ${stages}">
+                    <tr>
+                        <th scope="row" th:text="${iterator.index + 1}"></th>
+                        <td th:text="${stage.name}"></td>
+                        <td th:text="${#dates.format(stage.eventDate, 'dd.MM.yyyy')}"></td>
+                        <td th:text="${stage.location}"></td>
+                        <td th:text="${stage.notes}"></td>
+                        <td>
+                            <a th:href="@{'/administration/championship/stage/edit/' + ${stage.id}}" class="btn btn-sm btn-light">Edit</a>
+                            <a th:href="@{'/administration/championship/stage/delete/' + ${stage.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -7,13 +7,17 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 
+import lv.flyfishingteam.app.stage.session.StageSessionService;
+
 @Service
 public class StageServiceImpl implements StageService {
 
 	private final StageRepository stageRepository;
+	private final StageSessionService stageSessionService;
 
-	StageServiceImpl(StageRepository stageRepository) {
+	StageServiceImpl(StageRepository stageRepository, StageSessionService stageSessionService) {
 		this.stageRepository = stageRepository;
+		this.stageSessionService = stageSessionService;
 	}
 
 	@Override
@@ -31,7 +35,14 @@ public class StageServiceImpl implements StageService {
 		return stageRepository.findById(id);
 	}
 
-	@Override public void delete(Long teamId) {
-		stageRepository.deleteById(teamId);
+	@Override
+	public void delete(Long stageId) {
+		stageSessionService.findByStageId(stageId).forEach(stageSession -> stageSessionService.delete(stageSession.getId()));
+		stageRepository.deleteById(stageId);
+	}
+
+	@Override
+	public List<Stage> findByChampionshipId(Long championshipId) {
+		return stageRepository.findAllByChampionshipId(championshipId);
 	}
 }

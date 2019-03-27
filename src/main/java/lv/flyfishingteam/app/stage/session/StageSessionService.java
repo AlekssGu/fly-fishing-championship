@@ -15,4 +15,5 @@ public interface StageSessionService {
 
 	void delete(Long stageSessionId);
 
+	List<StageSession> findByStageId(Long stageId);
 }

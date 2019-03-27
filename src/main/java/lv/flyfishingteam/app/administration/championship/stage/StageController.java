@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import lv.flyfishingteam.app.administration.championship.ChampionshipNotFoundException;
+import lv.flyfishingteam.app.championship.Championship;
 import lv.flyfishingteam.app.championship.ChampionshipService;
 import lv.flyfishingteam.app.stage.Stage;
 import lv.flyfishingteam.app.stage.StageService;
@@ -32,15 +34,30 @@ public class StageController {
 		this.stageSessionService = stageSessionService;
 	}
 
-	@GetMapping("/administration/stage/new")
-	public String addStage(Model model) {
-		model.addAttribute("stageForm", new Stage());
-		model.addAttribute("championships", championshipService.findAll());
+	@GetMapping("/administration/championship/{championshipId}/stages")
+	public String allStages(@PathVariable("championshipId") Long championshipId, Model model) {
+		Championship championship = championshipService.findById(championshipId).orElseThrow(
+				() ->  new ChampionshipNotFoundException("Championship not found with id " + championshipId));
 
-		return "views/administration/stage/new";
+		model.addAttribute("championship", championship);
+		model.addAttribute("stages", stageService.findByChampionshipId(championshipId));
+
+		return "views/administration/championship/stage/index";
 	}
 
-	@PostMapping("/administration/stage")
+	@GetMapping("/administration/championship/{championshipId}/stage/new")
+	public String addStage(@PathVariable("championshipId") Long championshipId, Model model) {
+		Championship championship = championshipService.findById(championshipId).orElseThrow(
+				() ->  new ChampionshipNotFoundException("Championship not found with id " + championshipId));
+
+		Stage stage = new Stage();
+		stage.setChampionship(championship);
+		model.addAttribute("stageForm", stage);
+
+		return "views/administration/championship/stage/new";
+	}
+
+	@PostMapping("/administration/championship/stage")
 	public String newStage(@ModelAttribute("stageForm") Stage stageForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
 		Stage stage = stageService.save(stageForm);
@@ -48,16 +65,16 @@ public class StageController {
 		createStageSessions(stage);
 
 		if (bindingResult.hasErrors()) {
-			return "views/administration/stage/new";
+			return "views/administration/championship/stage/new";
 		}
 
 		String messageText = MessageFormat.format("New stage {0} successfully created!", stage.getName());
 		redirectAttributes.addFlashAttribute("message", messageText);
 
-		return "redirect:/administration";
+		return "redirect:/administration/championship/" + stage.getChampionship().getId() + "/stages";
 	}
 
-	@GetMapping("/administration/stage/edit/{stageId}")
+	@GetMapping("/administration/championship/stage/edit/{stageId}")
 	public String editStage(@PathVariable("stageId") Long stageId, Model model) {
 		Stage stage = stageService.findById(stageId).orElseThrow(
 				() -> new StageNotFoundException("Stage not found with id " + stageId));
@@ -65,32 +82,33 @@ public class StageController {
 		model.addAttribute("stageForm", stage);
 		model.addAttribute("championships", championshipService.findAll());
 
-		return "views/administration/stage/edit";
+		return "views/administration/championship/stage/edit";
 	}
 
-	@PostMapping("/administration/stage/update")
+	@PostMapping("/administration/championship/stage/update")
 	public String editStage(@ModelAttribute("stageForm") Stage stageForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-		Stage stageTeam = stageService.save(stageForm);
+		Stage stage = stageService.save(stageForm);
 
 		if (bindingResult.hasErrors()) {
-			return "views/administration/stage/edit";
+			return "views/administration/championship/stage/edit";
 		}
 
-		String messageText = MessageFormat.format("Stage {0} successfully updated!", stageTeam.getName());
+		String messageText = MessageFormat.format("Stage {0} successfully updated!", stage.getName());
 		redirectAttributes.addFlashAttribute("message", messageText);
 
-		return "redirect:/administration";
+		return "redirect:/administration/championship/" + stage.getChampionship().getId() + "/stages";
 	}
 
-	@GetMapping("/administration/stage/delete/{stageId}")
+	@GetMapping("/administration/championship/stage/delete/{stageId}")
 	public String deleteStage(@PathVariable("stageId") Long stageId, RedirectAttributes redirectAttributes) {
 
-		stageService.delete(stageId);
+		Stage stage = stageService.findById(stageId).orElseThrow(() -> new StageNotFoundException("Stage not found with id " + stageId));
+		stageService.delete(stage.getId());
 
 		redirectAttributes.addFlashAttribute("message", "Stage deleted!");
 
-		return "redirect:/administration";
+		return "redirect:/administration/championship/" + stage.getChampionship().getId() + "/stages";
 	}
 
 	private void createStageSessions(Stage stage) {

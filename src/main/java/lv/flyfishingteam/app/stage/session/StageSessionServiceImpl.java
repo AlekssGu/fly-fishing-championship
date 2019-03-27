@@ -35,4 +35,8 @@ public class StageSessionServiceImpl implements StageSessionService {
 	public void delete(Long stageSessionId) {
 		stageSessionRepository.deleteById(stageSessionId);
 	}
+
+	@Override public List<StageSession> findByStageId(Long stageId) {
+		return stageSessionRepository.findByStageId(stageId);
+	}
 }

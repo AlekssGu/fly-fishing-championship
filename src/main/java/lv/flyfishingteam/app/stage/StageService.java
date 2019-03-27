@@ -13,4 +13,6 @@ public interface StageService {
 	Optional<Stage> findById(Long id);
 
 	void delete(Long stageId);
+
+	List<Stage> findByChampionshipId(Long championshipId);
 }
