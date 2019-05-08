@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html layout:decorate="~{dashboardLayout.html}" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+<div layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-12">
+            <div th:replace="fragments/messages :: messages(${error}, ${message})"></div>
+            <h2>Sessions for stage "<span th:text="${stage.name + ' - ' + stage.location}" th:remove="tag"></span>"</h2>
+            <a th:href="@{'/administration/championship/' + ${stage.championship.id} + '/stages'}" class="btn btn-sm btn-secondary">Go back</a>
+
+            <table class="table mt-3" th:if="${sessions.size() > 0}">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Sequence</th>
+                    <!--<th scope="col">Session date &amp; time</th>-->
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="sessionRow : ${sessions}">
+                    <tr>
+                        <th scope="row" th:text="${sessionRow.sequence}"></th>
+                        <!--<td></td>-->
+                        <td>
+                            <a th:href="@{'/administration/championship/stage/session/' + ${sessionRow.id} + '/results'}" class="btn btn-sm btn-outline-info">Results</a>
+                            <!--<a th:href="@{'/administration/championship/stage/session/edit/' + ${sessionRow.id}}" class="btn btn-sm btn-light">Edit</a>-->
+                            <a th:href="@{'/administration/championship/stage/session/delete/' + ${sessionRow.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

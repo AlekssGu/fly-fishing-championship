@@ -31,6 +31,7 @@
                         <td th:text="${stage.location}"></td>
                         <td th:text="${stage.notes}"></td>
                         <td>
+                            <a th:href="@{'/administration/championship/stage/' + ${stage.id} + '/sessions'}" class="btn btn-sm btn-outline-info">Sessions</a>
                             <a th:href="@{'/administration/championship/stage/edit/' + ${stage.id}}" class="btn btn-sm btn-light">Edit</a>
                             <a th:href="@{'/administration/championship/stage/delete/' + ${stage.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
                         </td>

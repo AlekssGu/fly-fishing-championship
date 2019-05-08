@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html layout:decorate="~{dashboardLayout.html}" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+<div layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-12">
+            <div th:replace="fragments/messages :: messages(${error}, ${message})"></div>
+            <h2>Session <span th:text="${'#' + stageSession.sequence}" th:remove="tag"></span> results</h2>
+            <a th:href="@{'/administration/championship/stage/' + ${stageSession.stage.id} + '/sessions'}" class="btn btn-sm btn-secondary">Go back</a>
+            <a th:href="@{'/administration/championship/stage/session/' + ${stageSession.id} + '/result/new'}" class="btn btn-sm btn-outline-success">Add result</a>
+
+            <table class="table mt-3" th:if="${results.size() > 0}">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Participant</th>
+                    <th scope="col">Species</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Time caught</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="result, iterator : ${results}">
+                    <tr>
+                        <th scope="row" th:text="${iterator.index + 1}"></th>
+                        <td th:text="${result.sessionParticipant}"></td>
+                        <td th:text="${result.species}"></td>
+                        <td th:text="${result.size}"></td>
+                        <td th:text="${#dates.format(result.timeCaught, 'dd.MM.yyyy')}"></td>
+                        <td>
+                            <a th:href="@{'/administration/championship/stage/session/result/edit/' + ${result.id}}" class="btn btn-sm btn-light">Edit</a>
+                            <a th:href="@{'/administration/championship/stage/session/result/delete/' + ${result.id}}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

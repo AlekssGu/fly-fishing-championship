@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html layout:decorate="~{dashboardLayout.html}" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+<div layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-4 offset-md-4">
+            <h2 class="form-signin-heading">Add new result</h2>
+            <form method="POST" th:object="${resultForm}" th:action="@{/administration/championship/stage/session/result}" class="form-signin">
+                <input th:field="*{stageSession}" type="hidden" />
+
+                <div class="form-group">
+                    <select th:field="*{sessionParticipant}" class="form-control">
+                        <option value="-1" disabled>Select participant</option>
+                        <th:block th:each="participant : ${participants}">
+                            <option th:text="${participant.firstName + ' ' + participant.lastName}" th:value="${participant.id}"></option>
+                        </th:block>
+                    </select>
+                    <span th:if="${#fields.hasErrors('sessionParticipant')}" th:errors="*{sessionParticipant}">Session participant error</span>
+                </div>
+
+                <div class="form-group">
+                    <input type="number" th:field="*{size}" class="form-control" placeholder="Size" autofocus="true" />
+                    <span th:if="${#fields.hasErrors('size')}" th:errors="*{size}">Size error</span>
+                </div>
+                <div class="form-group">
+                    <input type="text" th:field="*{species}" class="form-control" placeholder="Species" />
+                    <span th:if="${#fields.hasErrors('species')}" th:errors="*{species}">Species error</span>
+                </div>
+
+                <button class="btn btn-lg btn-outline-info btn-block" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
